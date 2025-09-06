@@ -34,7 +34,7 @@ static inline node_t* create_node(int value){
 }
 
 list_t* make_list(void){ 
-    list_t* list = malloc(sizeof(list_t)); // Ensure head pointer is heap allocated
+    list_t* list = malloc(sizeof(list_t)); // Ensure head pointer is heap allocated (lifetime)
     if(!list){
         perror("List creation failed");
         return NULL;
@@ -101,8 +101,7 @@ void display_list(list_t* list){
     node_t *current_node = list -> head;
     int node_count = 1;
 
-    if(!(current_node)) 
-        return;
+    if(!(current_node)) return;
     
     while(current_node != NULL)
     {
@@ -110,4 +109,20 @@ void display_list(list_t* list){
         current_node = current_node -> next;
         node_count++;
     }
+}
+
+
+void free_list(list_t* list){
+    if (!list) return; 
+
+    node_t *current_node = list -> head;
+    node_t *next_node;
+
+    while(current_node != NULL){
+        next_node = current_node -> next;
+        free(current_node);
+        current_node = next_node;
+    }
+    
+    free(list);
 }
