@@ -1,5 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Iinclude -g
+CFLAGS = -Wall -Wextra -Iinclude -g -fsanitize=address
+LDFLAGS = -fsanitize=address
 
 SRC = $(wildcard src/*.c)
 OBJ = $(patsubst src/%.c, build/%.o, $(SRC))
@@ -10,10 +11,10 @@ TARGET = build/sll
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CC) $(OBJ) -o $@
+	$(CC) $(OBJ) -o $@ $(LDFLAGS)
 
 build/%.o: src/%.c $(HEADER)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 clean:
 	rm -rf build/*

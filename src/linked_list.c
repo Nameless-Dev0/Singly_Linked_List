@@ -1,23 +1,25 @@
 #include "linked_list.h"
 
-static inline node_t* create_node(int value); 
 
-#define CREATE_AND_VALIDATE_NODE(VALUE, NEW_NODE)   \
-do {                                                \                                                 
-    NEW_NODE = create_node(VALUE);                  \
-    if (!NEW_NODE) {                                \
-        printf("Node insertion failed\n");          \
-        return;                                     \
-    }                                               \
-} while (0)                                         \
- 
+#define CREATE_AND_VALIDATE_NODE(VALUE, NEW_NODE) \
+do {                                              \
+    NEW_NODE = create_node(VALUE);                \
+    if (!NEW_NODE) {                              \
+        printf("Node insertion failed\n");        \
+        return;                                   \
+    }                                             \
+} while (0)
+
+static inline node_t* create_node(int value);
+
 
 struct node{
     int data;
     struct node* next;
 };
 
-struct linked_list{
+// Wrap head to avoid double pointers
+struct linked_list{ 
     struct node* head;
 };
 
@@ -31,16 +33,6 @@ static inline node_t* create_node(int value){
     new_node -> data = value;
     new_node -> next = NULL;
     return new_node;
-}
-
-list_t* make_list(void){ 
-    list_t* list = malloc(sizeof(list_t)); // Ensure head pointer is heap allocated (lifetime)
-    if(!list){
-        perror("List creation failed");
-        return NULL;
-    }
-    list->head = NULL;
-    return list;
 }
 
 void insert_node_at_beg(list_t* list, int value){
@@ -112,11 +104,22 @@ void display_list(list_t* list){
 }
 
 
+list_t* make_list(void){ 
+    list_t* list = malloc(sizeof(list_t)); // Ensure head pointer is heap allocated (lifetime)
+    if(!list){
+        perror("List creation failed");
+        return NULL;
+    }
+    list->head = NULL;
+    return list;
+}
+
+
 void free_list(list_t** list){
     if (!list || !(*list)) return; 
 
     node_t *current_node = (*list) -> head;
-    node_t *next_node;
+    node_t *next_node = NULL;
 
     while(current_node != NULL){
         next_node = current_node -> next;
@@ -126,4 +129,33 @@ void free_list(list_t** list){
     
     free(*list);
     *list = NULL;
+}
+
+
+void search_and_delete_node(int lookup_value, list_t* list){
+    if (!list || !(list -> head)) return;
+
+    node_t *previous_node, *current_node = list -> head;
+
+    if (current_node -> data == lookup_value) // delete head node
+    {
+        list -> head = list -> head -> next;
+        free(current_node);
+        return;
+    }
+
+    previous_node = current_node;
+    current_node = current_node -> next;
+
+    while(current_node != NULL)
+    {
+        if (current_node -> data == lookup_value)
+        {
+            previous_node -> next = current_node -> next;
+            free(current_node);
+            return;
+        }
+        previous_node = current_node;
+        current_node = current_node -> next;
+    }
 }
