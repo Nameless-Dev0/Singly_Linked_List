@@ -8,7 +8,6 @@
 #include <stdbool.h>
 
 typedef struct linked_list list_t;
-typedef struct node node_t;
 
 
 void insert_node_at_beg(list_t* list, int value);

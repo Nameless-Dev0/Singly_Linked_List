@@ -1,6 +1,7 @@
 #include "linked_list.h"
 
 
+
 #define CREATE_AND_VALIDATE_NODE(VALUE, NEW_NODE) \
 do {                                              \
     NEW_NODE = create_node(VALUE);                \
@@ -10,8 +11,8 @@ do {                                              \
     }                                             \
 } while (0)
 
+typedef struct node node_t;
 static inline node_t* create_node(int value);
-
 
 struct node{
     int data;
