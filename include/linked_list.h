@@ -17,7 +17,7 @@ void insert_node_at_pos(list_t* list, int value, int position);
 void search_and_delete_node(int value, list_t* list);
 
 list_t* make_list(void);
-void free_list(list_t* list);
+void free_list(list_t** list);
 
 void display_list(list_t* list);
 void reverse_list(list_t* list);

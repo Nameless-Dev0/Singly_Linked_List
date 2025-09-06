@@ -112,10 +112,10 @@ void display_list(list_t* list){
 }
 
 
-void free_list(list_t* list){
-    if (!list) return; 
+void free_list(list_t** list){
+    if (!list || !(*list)) return; 
 
-    node_t *current_node = list -> head;
+    node_t *current_node = (*list) -> head;
     node_t *next_node;
 
     while(current_node != NULL){
@@ -124,5 +124,6 @@ void free_list(list_t* list){
         current_node = next_node;
     }
     
-    free(list);
+    free(*list);
+    *list = NULL;
 }

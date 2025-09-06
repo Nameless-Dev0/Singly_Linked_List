@@ -88,3 +88,6 @@ dkms.conf
 
 # Ignore build artifacts
 build/
+
+# Ignore todo file
+TODO.txt

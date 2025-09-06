@@ -20,8 +20,7 @@ int main(){
     insert_node_at_pos(numbers_list, 999, 10);
     display_list(numbers_list);
 
-    free_list(numbers_list);
-    numbers_list = NULL;
-    
+    free_list(&numbers_list);
+
     return 0;
 }
